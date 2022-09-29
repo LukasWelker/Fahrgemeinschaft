@@ -13,13 +13,7 @@ namespace FahrgemeinschaftsProjekt
         static void Main(string[] args)
         {
             LoginRegistrationHandler.Welcome();
-
-
-
-
-
             Console.ReadLine();
-
         }
     }
 }

@@ -12,8 +12,8 @@ namespace FahrgemeinschaftsProjekt
         public static void Drivers(string usersRegistrationNameD, string usersRegistrationsPasswordD) 
         {
             // FileStream fs = new FileStream("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv", FileMode.Create);
-            var foo = $"{usersRegistrationNameD};{usersRegistrationsPasswordD}\n";
-            File.AppendAllText("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv", foo, Encoding.UTF8);
+            var driverscsv = $"{usersRegistrationNameD};{usersRegistrationsPasswordD}\n";
+            File.AppendAllText("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv", driverscsv, Encoding.UTF8);
            
         }
         

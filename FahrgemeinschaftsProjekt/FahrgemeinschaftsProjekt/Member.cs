@@ -12,8 +12,8 @@ namespace FahrgemeinschaftsProjekt
     {
         public static void Members(string usersRegistrationName, string usersRegistrationsPassword)
         {
-            var baa = $"{usersRegistrationName};{usersRegistrationsPassword}\n";
-            File.AppendAllText("C:\\Projects001\\FahrgemeinschaftProject\\Members.csv", baa, Encoding.UTF8);
+            var memberscsv = $"{usersRegistrationName};{usersRegistrationsPassword}\n";
+            File.AppendAllText("C:\\Projects001\\FahrgemeinschaftProject\\Members.csv", memberscsv, Encoding.UTF8);
         }
     }
 }
