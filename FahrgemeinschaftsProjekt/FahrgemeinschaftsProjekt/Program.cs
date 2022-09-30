@@ -12,7 +12,10 @@ namespace FahrgemeinschaftsProjekt
     {
         static void Main(string[] args)
         {
+            Console.Title = "Fahrgemeinschaftsprojekt";
             LoginRegistrationHandler.Welcome();
+            LoginRegistrationHandler.MenuePage();
+            
             Console.ReadLine();
         }
     }
