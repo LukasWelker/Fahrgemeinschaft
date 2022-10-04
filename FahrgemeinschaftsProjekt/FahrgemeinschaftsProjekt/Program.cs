@@ -13,8 +13,11 @@ namespace FahrgemeinschaftsProjekt
         static void Main(string[] args)
         {
             Console.Title = "Fahrgemeinschaftsprojekt";
-            LoginRegistrationHandler.Welcome();
-            LoginRegistrationHandler.MenuePage();
+            var loginHandler = new LoginRegistrationHandler(
+                "C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv",
+                "C:\\Projects001\\FahrgemeinschaftProject\\Members.csv");
+            loginHandler.Welcome();
+            loginHandler.MenuePage();
             
             Console.ReadLine();
         }

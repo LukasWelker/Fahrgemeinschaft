@@ -10,9 +10,20 @@ using System.Threading.Tasks;
 
 namespace FahrgemeinschaftsProjekt
 {
-    public class LoginRegistrationHandler
+    public class LoginRegistrationHandler 
     {
-        public static void Welcome()
+        //
+        private readonly string driverFile;
+        private readonly string memberFile;
+
+        public LoginRegistrationHandler(string driverFile, string memberFile)
+        {
+            this.driverFile = driverFile;
+            this.memberFile = memberFile;
+            
+        }
+
+        public void Welcome()
         {
             Home:
             //Loginfenster & Registrierungsfenster           
@@ -22,20 +33,21 @@ namespace FahrgemeinschaftsProjekt
             int UsersAnswer = Convert.ToInt32(Console.ReadLine());
             if (UsersAnswer == 1)
             {
-                LoginRegistrationHandler.LoginHandle();
+                LoginHandle();
             }
             else if (UsersAnswer == 2)
             {
 
-                if (LoginRegistrationHandler.RegistrationHandle())
+                if (RegistrationHandle())
                 {
                     Console.Clear();
                     goto Home;
                 }
                 
             }
+            
         }
-        public static void LoginHandle()
+        public void LoginHandle()
         {
             Console.Clear();
             Console.WriteLine("Sie befinden sich nun im Loginfenster!");
@@ -44,16 +56,18 @@ namespace FahrgemeinschaftsProjekt
             {
                 Console.WriteLine("Geben Sie nun bitte Ihren Benutzernamen ein");
                 string UsersName = Console.ReadLine();
-                if (CheckIfUserExistM(UsersName)|| CheckIfUserExistD(UsersName))
+                if (CheckIfUsersNameExistDM(UsersName, memberFile) 
+                    || CheckIfUsersNameExistDM(UsersName, driverFile))
                 {
                     Console.Clear();
                     Console.WriteLine($"Hallo {UsersName}.");
                     Console.WriteLine("Geben Sie nun bitte Ihr Passwort ein!");
                     string UsersPassword = Console.ReadLine();
-                    if (CheckifUserPasswordExistM(UsersPassword) || CheckifUserPasswordExistD(UsersPassword))
+                    if (CheckifUserPasswordExistDM(UsersPassword, driverFile) 
+                        || CheckifUserPasswordExistDM(UsersPassword, memberFile))
                     {
-                        Console.Clear();
-                        break;
+                        
+                        
                     }
                     else
                     {
@@ -68,56 +82,40 @@ namespace FahrgemeinschaftsProjekt
                     Console.WriteLine("Dies ist leider ein ungültiges Passwort/Benutzername!");
                 }
             }
-
+        
         }
 
-        public static bool CheckIfUserExistM(string UsersName)
+        public static bool CheckIfUsersNameExistDM(string UsersName, string path)
         {
-            string[] readText = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Members.csv", Encoding.UTF8);
+            
+            string[] readText = File.ReadAllLines(path, Encoding.UTF8);
             List<string> readList = readText.ToList();
             var filteredmeml = readText.FirstOrDefault(x => x.Split(';').First() == UsersName);
             if (filteredmeml != null)
                 return true;
             return false;
         }
-        private static bool CheckIfUserExistD(string UsersName)
+        private static bool CheckifUserPasswordExistDM(string UsersPassword, string path)
         {
-            string[] readText2 = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv", Encoding.UTF8);
-            List<string> readList2 = readText2.ToList();
-            var filteredDl = readText2.FirstOrDefault(x => x.Split(';').First() == UsersName);
-            if (filteredDl != null)
-                return true;
-            return false;
-        }
-        private static bool CheckifUserPasswordExistD(string UsersPassword)
-        {
-            string[] readText3 = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv", Encoding.UTF8);
+            string[] readText3 = File.ReadAllLines(path, Encoding.UTF8);
             List<string> readList3 = readText3.ToList();
            
                 var filteredPasswordD = readText3.FirstOrDefault(x => x.Split(';').Last() == UsersPassword);
                 if (filteredPasswordD != null)
                     return true;
                 return false;
-        }
-        private static bool CheckifUserPasswordExistM(string UsersPassword)
+        } 
+        public static void ReadCsv(string path)
         {
-            string[] readText4 = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Members.csv", Encoding.UTF8);
-            List<string> readList4 = readText4.ToList();
-          
-                var filteredPasswordD2 = readText4.FirstOrDefault(x => x.Split(';').Last() == UsersPassword);
-                if (filteredPasswordD2 != null)
-                    return true;
-                return false;
-        }
-        public static void ReadCsv(List<string> readlist)
-        {
-            foreach(string read in readlist)
+            string[] readText = File.ReadLines(path, Encoding.UTF8).Skip(0).First().Split(';');
+            List<string> readList = readText.ToList();
+            foreach (string read in readList)
             {
                 Console.WriteLine(read);
             }
         }
 
-        public  static bool RegistrationHandle()
+        public  bool RegistrationHandle()
         {
 
 
@@ -189,7 +187,7 @@ namespace FahrgemeinschaftsProjekt
             Console.ReadLine();
             return false;
         }
-        public static void MenuePage(List<string> readList)
+        public void MenuePage()
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("    ###       ###  ##########   ###         ########   ##########   ###     ###    ########## ");
@@ -199,7 +197,7 @@ namespace FahrgemeinschaftsProjekt
             Console.WriteLine("###  #### ###  ###          ###         ###        ###    ###   ###       ###  ###            ");
             Console.WriteLine("##### #####   ###          ###         ###        ###    ###   ###       ###  ###             ");
             Console.WriteLine("###   ###    ##########   ##########  ########   ##########   ###       ###  ##########       ");
-            Console.WriteLine("                             Willkommen zurück!");
+            Console.WriteLine($"                             Willkommen zurück !");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("[1] = Add Carpool");
             Console.WriteLine("[2] = Find a Carpool");
@@ -208,8 +206,8 @@ namespace FahrgemeinschaftsProjekt
             int UsersAnswer = Convert.ToInt32(Console.ReadLine());
             if(UsersAnswer == 1)
             {
-                var foo = new LoginRegistrationHandler();
-                foo.ReadCsv(re);
+                
+                //ReadCsv(driverFile);
             }
 
         }
