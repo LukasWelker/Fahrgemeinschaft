@@ -57,10 +57,107 @@ namespace FahrgemeinschaftsProjekt
         public void FindACarPool(string driverFile, string memberFile)
         {
             Console.Clear();
+            int UA5 = 0;
+            ConsoleKeyInfo UsersSearchWish;
+            CheckUserInput(out UA5, out UsersSearchWish);
+            var userQuestion = "";
+            switch (UA5)
+            {
+                case 1:
+                    userQuestion = "Wähle den Abfahrtsort aus.";
+                    break;
+                case 2:
+                    userQuestion = "Wähle den Ankunftsort aus.";
+                    break;
+                case 3:
+                    userQuestion = "Wähle die Abfahrtzeit aus.";
+                    break;
+                case 4:
+                    SearchFallback(driverFile, memberFile);
+                    return;
+            }
+            SearchFileByUserEntry(driverFile, memberFile, userQuestion);
+
+        }
+
+        private void SearchFallback(string driverFile, string memberFile)
+        {
+            Console.Clear();
             Console.WriteLine("Die folgende AufListung zeigt alle verfügbaren Fahrgemeinschaften.");
             Console.WriteLine(string.Empty);
-            var CarPoolList = File.ReadLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
+            var CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
 
+            PrintOutCarPoolInfo(CarPoolList);
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine(string.Empty);
+            Console.WriteLine("Liegt eine dieser Fahgemeinschaften auf ihrem Weg (y/n)?");
+            string PossibleMatch = Console.ReadLine();
+            if (PossibleMatch == "y")
+            {
+                Console.WriteLine("Möchten sie sich eintragen, um der Fahrgemeinschaft beizutreten");
+
+            }
+            else if (PossibleMatch == "n")
+            {
+                Console.Clear();
+                Console.WriteLine("Möchten Sie ihre eigene Fahrgemeinschaft erstellen(y/n)?");
+                string UsersChoice = Console.ReadLine();
+                if (UsersChoice == "y")
+                {
+                    CreateACarPool();
+                    Console.Clear();
+                    Console.WriteLine("Sie werden nun zum Dashboard geleitet");
+                    Thread.Sleep(1000);
+                    ReturnDashboardHandler(driverFile, memberFile);
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Schade sie werden nun zum Dashboard geleitet");
+                    Thread.Sleep(1000);
+                    ReturnDashboardHandler(driverFile, memberFile);
+                }
+
+            }
+        }
+
+        private void SearchFileByUserEntry(string driverFile, string memberFile, string userQuestion)
+        {
+            Console.Clear();
+            Console.WriteLine("hallo");
+            var CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
+            List<string> readList = CarPoolList.ToList();
+            Console.WriteLine(userQuestion);
+            string UserInput = Console.ReadLine();
+            var filtered = readList.Where(x => x.Contains(UserInput)).ToArray();
+            PrintOutCarPoolInfo(filtered);
+            Thread.Sleep(1000);
+            ReturnDashboardHandler(driverFile, memberFile);
+        }
+
+        private static void CheckUserInput(out int UA5, out ConsoleKeyInfo UsersSearchWish)
+        {
+            do
+            {
+                Console.WriteLine("[1] = Nach einer Fahrgemeinschaft im Bezug auf Abfahrtsort suchen\n" +
+                    "------------------------------------------------------------------------------------\n"+
+                    "[2] = Nach einer Fahrgemeinschaft im Bezug auf Ankunfstort suchen\n" +
+                    "------------------------------------------------------------------------------------\n" +
+                    "[3] = Nach einer Fahrgemeinschaft im Bezug auf Uhrzeit suchen\n" +
+                    "------------------------------------------------------------------------------------\n" +
+                    "[4] = Nach einer Fahrgemeinschaft manuell suchen");
+
+                UsersSearchWish = Console.ReadKey();
+                if (char.IsDigit(UsersSearchWish.KeyChar))
+                {
+                    UA5 = int.Parse(UsersSearchWish.KeyChar.ToString());
+                    break;
+                }
+            } while (true);
+        }
+
+        private static void PrintOutCarPoolInfo(string[] CarPoolList)
+        {
             foreach (var CarPool in CarPoolList)
             {
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
@@ -87,38 +184,8 @@ namespace FahrgemeinschaftsProjekt
                     }
                 }
             }
-            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine(string.Empty);
-            Console.WriteLine("Liegt eine dieser Fahgemeinschaften auf ihrem Weg (y/n)?");
-            string PossibleMatch = Console.ReadLine();
-            if (PossibleMatch == "y")
-            {
-                Console.WriteLine("Möchten sie sich eintragen, um der Fahrgemeinschaft beizutreten");
-
-            }
-            else if(PossibleMatch == "n")
-            {
-                Console.Clear();
-                Console.WriteLine("Möchten Sie ihre eigene Fahrgemeinschaft erstellen(y/n)?");
-                string UsersChoice = Console.ReadLine();
-                if(UsersChoice == "y")
-                {
-                    CreateACarPool();
-                    Console.Clear();
-                    Console.WriteLine("Sie werden nun zum Dashboard geleitet");
-                    Thread.Sleep(1000);
-                    ReturnDashboardHandler(driverFile, memberFile);
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Schade sie werden nun zum Dashboard geleitet");
-                    Thread.Sleep(1000);
-                    ReturnDashboardHandler(driverFile, memberFile);
-                }
-               
-            }
         }
+
         public void ReturnDashboardHandler(string driverFile, string memberFile)
         {
             var ReturnLogIN = new LoginRegistrationHandler(driverFile, memberFile);

@@ -23,26 +23,14 @@ namespace FahrgemeinschaftsProjekt
 
         public void Welcome()
         {
-            int UA1 = 0;
-        Home:
-            ConsoleKeyInfo UsersAnswer;
-            do
-            {
-                Console.Clear();
-                //Loginfenster & Registrierungsfenster           
-                Console.WriteLine("Willkommen zu unserer Fahrgemeinschaftapp");
-                Console.WriteLine("[1] = Login");
-                Console.WriteLine("[2] = Registration");
-                Console.WriteLine("[3] = Exit");
-                UsersAnswer = Console.ReadKey();
-                if (char.IsDigit(UsersAnswer.KeyChar))
-                {
-                    UA1 = int.Parse(UsersAnswer.KeyChar.ToString());
-                    break;
-                }
-                
-            }while (true);
 
+        Home:
+            int UA1 = 0;
+            ConsoleKeyInfo UsersAnswer;
+            CheckUserMenueSelection(out UA1, out UsersAnswer, "Willkommen zu unserer Fahrgemeinschaftapp\n" +
+                    "[1] = Login\n" +
+                    "[2] = Registration\n" +
+                    "[3] = Exit");
             if (UA1 == 1)
             {
                 LoginHandle();
@@ -50,14 +38,14 @@ namespace FahrgemeinschaftsProjekt
             else if (UA1 == 2)
             {
 
-                
+
                 if (RegistrationHandle())
                 {
                     Console.Clear();
                     goto Home;
                 }
             }
-            else if(UA1 == 3)
+            else if (UA1 == 3)
             {
                 Console.Clear();
                 Console.WriteLine("Tschüss!");
@@ -73,6 +61,22 @@ namespace FahrgemeinschaftsProjekt
                 goto Home;
             }
 
+        }
+
+        private static void CheckUserMenueSelection(out int UA1, out ConsoleKeyInfo UsersAnswer, string value)
+        {
+            do
+            {
+                Console.Clear();
+                //Loginfenster & Registrierungsfenster
+                Console.WriteLine(value);
+                UsersAnswer = Console.ReadKey();
+                if (char.IsDigit(UsersAnswer.KeyChar))
+                {
+                    UA1 = int.Parse(UsersAnswer.KeyChar.ToString());
+                    break;
+                }
+            } while (true);
         }
         public string LoginHandle()
         {
