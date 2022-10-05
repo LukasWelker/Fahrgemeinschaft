@@ -179,7 +179,7 @@ namespace FahrgemeinschaftsProjekt
                 }
                 Console.Clear();
                 Console.WriteLine($"Herzlich Willkommen {UsersRegistrationName}");
-                Console.WriteLine("Jetzt fehlt nur noch Ihr privates Passwort. Denken Sie daran, nie Ihre Passwörter mit Dritten zu teilen!\nIhr Passwort muss mindestens 6 Zeichen lang sein!");
+                Console.WriteLine("Jetzt fehlt nur noch Ihr privates Passwort. Denken Sie daran, nie Ihre Passwörter mit Dritten zu teilen!\nIhr Passwort muss mindestens 5 Zeichen lang sein!");
 
                 while (true)
                 {
@@ -234,7 +234,8 @@ namespace FahrgemeinschaftsProjekt
                     Console.WriteLine("Ihr Passwort ist leider zu kurz! Geben Sie nun ein gültiges Passwort ein");
                 }
                 Console.Clear();
-                Console.WriteLine($"Vielen Dank {UsersRegistrationNameD} Ihre Registrierung ist nun abgeschlossen!");
+               
+                Console.WriteLine($"Vielen Dank {UsersRegistrationNameD} Ihre Registrierung ist nun abgeschlossen!");             
                 Thread.Sleep(500);
                 Console.WriteLine("Drücken sie nun Enter um zurück zu Startbildschirm zu kommen, um sich einzuloggen!");
                 string ReturnHome = Console.ReadLine();

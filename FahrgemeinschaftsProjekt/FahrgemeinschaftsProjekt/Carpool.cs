@@ -35,9 +35,9 @@ namespace FahrgemeinschaftsProjekt
             {
                 Id = Convert.ToInt32(readText.Last().Split(';').First()) + 1;
             }
-            for (int i = Id; i < UA4 +Id; i++)
+            var baseId = Id;
+            for (int i = Id; i < UA4 +baseId; i++)
             {
-
                 Console.Clear();
                 Console.WriteLine("Von wo möchten Sie abfahren?");
                 string Start = Console.ReadLine();
@@ -50,14 +50,14 @@ namespace FahrgemeinschaftsProjekt
                 var Carpool = $"{Id};{Start};{Destination};{Time};{SeatCount}\n";
                 File.AppendAllText($"C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv",Carpool);
                 Console.WriteLine("Fahrgemeinschaft wurde erfolgreich hinzugefügt!");
-                Thread.Sleep(1000);               
+                Thread.Sleep(1000);
+                Id++;
             }
-            
         }
         public void FindACarPool(string driverFile, string memberFile)
         {
             Console.Clear();
-            Console.WriteLine("Die folgende AufListung ist gegliedert in ID (der Fahrgemeinschaft), Abfahrtsort, Ankunftsort, Abfahrtzeit, freie Sitzplätze ");
+            Console.WriteLine("Die folgende AufListung zeigt alle verfügbaren Fahrgemeinschaften.");
             Console.WriteLine(string.Empty);
             var CarPoolList = File.ReadLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
 
