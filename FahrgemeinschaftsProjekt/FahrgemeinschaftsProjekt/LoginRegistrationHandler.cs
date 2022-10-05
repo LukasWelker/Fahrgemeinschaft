@@ -23,27 +23,41 @@ namespace FahrgemeinschaftsProjekt
 
         public void Welcome()
         {
+            int UA1 = 0;
         Home:
-            //Loginfenster & Registrierungsfenster           
-            Console.WriteLine("Willkommen zu unserer Fahrgemeinschaftapp");
-            Console.WriteLine("[1] = Login");
-            Console.WriteLine("[2] = Registration");
-            Console.WriteLine("[3] = Exit");
-            int UsersAnswer = Convert.ToInt32(Console.ReadLine());
-            if (UsersAnswer == 1)
+            ConsoleKeyInfo UsersAnswer;
+            do
+            {
+                Console.Clear();
+                //Loginfenster & Registrierungsfenster           
+                Console.WriteLine("Willkommen zu unserer Fahrgemeinschaftapp");
+                Console.WriteLine("[1] = Login");
+                Console.WriteLine("[2] = Registration");
+                Console.WriteLine("[3] = Exit");
+                UsersAnswer = Console.ReadKey();
+                if (char.IsDigit(UsersAnswer.KeyChar))
+                {
+                    UA1 = int.Parse(UsersAnswer.KeyChar.ToString());
+                    break;
+                }
+                
+            }while (true);
+
+            if (UA1 == 1)
             {
                 LoginHandle();
             }
-            else if (UsersAnswer == 2)
+            else if (UA1 == 2)
             {
 
+                
                 if (RegistrationHandle())
                 {
                     Console.Clear();
                     goto Home;
                 }
             }
-            else if(UsersAnswer == 3)
+            else if(UA1 == 3)
             {
                 Console.Clear();
                 Console.WriteLine("Tschüss!");
@@ -134,8 +148,6 @@ namespace FahrgemeinschaftsProjekt
 
         public bool RegistrationHandle()
         {
-
-
             Console.Clear();
             Console.WriteLine("Sie befinden sich nun im Registrationsfenster!");
             Console.WriteLine(string.Empty);
@@ -207,7 +219,7 @@ namespace FahrgemeinschaftsProjekt
                     Console.Clear();
                     goto Fahrer;
                 }
-              
+                Console.Clear();
                 Console.WriteLine($"Herzlich Willkommen {UsersRegistrationNameD}");
                 Console.WriteLine("Jetzt fehlt nur noch Ihr privates Passwort. Denken Sie daran, nie Ihre Passwörter mit Dritten zu teilen!\nIhr Passwort muss mindestens 6 Zeichen lang sein!");
 
@@ -237,53 +249,67 @@ namespace FahrgemeinschaftsProjekt
         }
         public void MenuePage()
         {
+            
+            int UA3 = 0;
         Menue:
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("    ###       ###  ##########   ###         ########   ##########   ###     ###    ########## ");
-            Thread.Sleep(50);
-            Console.WriteLine("   ###       ###  ###          ###         ###        ###    ###   ####   #####   ###         ");
-            Thread.Sleep(50);
-            Console.WriteLine("  ##   ##   ##   ###          ###         ###        ###    ###   ### #  #  ###  ###          ");
-            Thread.Sleep(50);
-            Console.WriteLine(" ###  ###  ###  ########     ###         ###        ###    ###   ###  ###  ###  ########      ");
-            Thread.Sleep(50);
-            Console.WriteLine("###  #### ###  ###          ###         ###        ###    ###   ###       ###  ###            ");
-            Thread.Sleep(50);
-            Console.WriteLine("##### #####   ###          ###         ###        ###    ###   ###       ###  ###             ");
-            Thread.Sleep(50);
-            Console.WriteLine("###   ###    ##########   ##########  ########   ##########   ###       ###  ##########       ");
-            Thread.Sleep(50);
-            Console.WriteLine($"                             Willkommen zurück !");
-            Thread.Sleep(50);
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("[1] = Add Carpool");
-            Thread.Sleep(50);
-            Console.WriteLine("[2] = Find a Carpool");
-            Thread.Sleep(50);
-            Console.WriteLine("[3] = Manage your Carpools ");
-            Thread.Sleep(50);
-            Console.WriteLine("[4] = Settings");
-            int UsersAnswer = Convert.ToInt32(Console.ReadLine());
-            if (UsersAnswer == 1)
+            ConsoleKeyInfo UsersAnswer;
+            do
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("    ###       ###  ##########   ###         ########   ##########   ###     ###    ########## ");
+                Thread.Sleep(20);
+                Console.WriteLine("   ###       ###  ###          ###         ###        ###    ###   ####   #####   ###         ");
+                Thread.Sleep(20);
+                Console.WriteLine("  ##   ##   ##   ###          ###         ###        ###    ###   ### #  #  ###  ###          ");
+                Thread.Sleep(20);
+                Console.WriteLine(" ###  ###  ###  ########     ###         ###        ###    ###   ###  ###  ###  ########      ");
+                Thread.Sleep(20);
+                Console.WriteLine("###  #### ###  ###          ###         ###        ###    ###   ###       ###  ###            ");
+                Thread.Sleep(20);
+                Console.WriteLine("##### #####   ###          ###         ###        ###    ###   ###       ###  ###             ");
+                Thread.Sleep(20);
+                Console.WriteLine("###   ###    ##########   ##########  ########   ##########   ###       ###  ##########       ");
+                Thread.Sleep(20);
+                Console.WriteLine($"                             Willkommen zurück !");
+                Thread.Sleep(20);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("[1] = Add Carpool");
+                Thread.Sleep(20);
+                Console.WriteLine("[2] = Find a Carpool");
+                Thread.Sleep(20);
+                Console.WriteLine("[3] = Manage your Carpools ");
+                Thread.Sleep(20);
+                Console.WriteLine("[4] = Settings");
+                UsersAnswer = Console.ReadKey();
+                if (char.IsDigit(UsersAnswer.KeyChar))
+                {
+                    UA3 = int.Parse(UsersAnswer.KeyChar.ToString());
+                    break;
+                }
+
+            }while (true);
+
+
+            if (UA3 == 1)
             {
                 var Carpool = new Carpool();
                 Carpool.CreateACarPool();
                 goto Menue;
             }
-            else if(UsersAnswer == 2)
+            else if(UA3 == 2)
             {
                 var FindCarpool = new Carpool();
                 FindCarpool.FindACarPool(driverFile, memberFile);
             }
-            else if (UsersAnswer == 3)
+            else if (UA3 == 3)
             {
                 Console.Clear();
                 Console.WriteLine("Coming Soon!");
                 Thread.Sleep(2000);
                 goto Menue;
             }
-            else if (UsersAnswer == 4)
+            else if (UA3 == 4)
             {
                 var Settings = new Settings();
                 Settings.SettingsHandler(driverFile,memberFile);
