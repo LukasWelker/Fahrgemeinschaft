@@ -167,7 +167,7 @@ namespace FahrgemeinschaftsProjekt
                 Mitfahrer:
                 Console.WriteLine("Sie befinden sich im Registrierungsfenster als Mitfahrer!");
                 Console.WriteLine(string.Empty);
-                Console.WriteLine("Geben Sie nun bitte Ihren vollen Namen ein, der als Ihr Benutzername eingetragen wird.");
+                Console.WriteLine("Geben Sie nun bitte Ihren Vornamen ein, der als Ihr Benutzername eingetragen wird.");
                 string UsersRegistrationName = Console.ReadLine();
                 if (string.IsNullOrEmpty(UsersRegistrationName))
                 {
