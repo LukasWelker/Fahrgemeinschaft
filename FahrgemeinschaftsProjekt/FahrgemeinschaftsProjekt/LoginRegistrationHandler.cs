@@ -10,7 +10,6 @@ namespace FahrgemeinschaftsProjekt
 {
     public class LoginRegistrationHandler
     {
-        //
         public readonly string driverFile;
         public readonly string memberFile;
 
@@ -39,7 +38,7 @@ namespace FahrgemeinschaftsProjekt
             {
 
 
-                if (RegistrationHandle())
+                if (RegistrationHandle() == true)
                 {
                     Console.Clear();
                     goto Home;
@@ -47,10 +46,7 @@ namespace FahrgemeinschaftsProjekt
             }
             else if (UA1 == 3)
             {
-                Console.Clear();
-                Console.WriteLine("Tschüss!");
-                Thread.Sleep(900);
-                Environment.Exit(1);
+               Exit();
             }
             else
             {
@@ -286,6 +282,8 @@ namespace FahrgemeinschaftsProjekt
                 Console.WriteLine("[3] = Manage your Carpools ");
                 Thread.Sleep(20);
                 Console.WriteLine("[4] = Settings");
+                Thread.Sleep(20);
+                Console.WriteLine("[5] = Exit");
                 UsersAnswer = Console.ReadKey();
                 if (char.IsDigit(UsersAnswer.KeyChar))
                 {
@@ -310,20 +308,30 @@ namespace FahrgemeinschaftsProjekt
             else if (UA3 == 3)
             {
                 Console.Clear();
-                Console.WriteLine("Coming Soon!");
-                Thread.Sleep(2000);
+                var Carpool = new Carpool();
+                Carpool.DisplayYourCarpools(driverFile, memberFile);
                 goto Menue;
             }
             else if (UA3 == 4)
             {
                 var Settings = new Settings();
-                Settings.SettingsHandler(driverFile,memberFile);
-                
+                Settings.SettingsHandler(driverFile,memberFile); 
+            }
+            else if (UA3 == 5)
+            {
+                Exit();
             }
 
 
         }
-        
+
+        private static void Exit()
+        {
+            Console.Clear();
+            Console.WriteLine("Tschüss!");
+            Thread.Sleep(900);
+            Environment.Exit(1);
+        }
     }
 }
 

@@ -17,8 +17,7 @@ namespace FahrgemeinschaftsProjekt
                 "C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv",
                 "C:\\Projects001\\FahrgemeinschaftProject\\Members.csv");
              loginHandler.Welcome();
-            loginHandler.MenuePage();
-            
+            loginHandler.MenuePage();            
             Console.ReadLine();
         }
     }
