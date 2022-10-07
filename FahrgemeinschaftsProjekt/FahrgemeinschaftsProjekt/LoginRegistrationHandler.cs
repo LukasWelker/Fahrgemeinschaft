@@ -81,7 +81,7 @@ namespace FahrgemeinschaftsProjekt
             Console.WriteLine(string.Empty);
             while (true)
             {
-                Console.WriteLine("Geben Sie nun bitte Ihren Benutzernamen ein");
+                Console.WriteLine("Geben Sie nun bitte Ihren Vornamen ein");
                 string UsersName = Console.ReadLine();
                 if (CheckIfUsersNameExistDM(UsersName, memberFile)
                     || CheckIfUsersNameExistDM(UsersName, driverFile))
@@ -173,9 +173,20 @@ namespace FahrgemeinschaftsProjekt
                 {
                     Console.Clear();
                     Console.WriteLine("Dies ist leider eine ungültige Eingabe, bitte erneut versuchen.");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     Console.Clear();
                     goto Mitfahrer;
+                }
+                MitfahrerSecondQustion:
+                Console.WriteLine("Geben Sie nun bitte ihren Nachnamen ein.");
+                string UsersRegistrationAName = Console.ReadLine();
+                if (string.IsNullOrEmpty(UsersRegistrationAName))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Dies ist leider eine ungültige Eingabe, bitte erneut versuchen.");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    goto MitfahrerSecondQustion;
                 }
                 Console.Clear();
                 Console.WriteLine($"Herzlich Willkommen {UsersRegistrationName}");
@@ -186,7 +197,7 @@ namespace FahrgemeinschaftsProjekt
                     string UsersRegistrationsPassword = Console.ReadLine();
                     if (UsersRegistrationsPassword.Length >= 5)
                     {
-                        Member.Members(UsersRegistrationName, UsersRegistrationsPassword);
+                        Member.Members(UsersRegistrationName, UsersRegistrationsPassword, UsersRegistrationAName);
                         break;
                     }
                     Console.WriteLine("Ihr Passwort ist leider zu kurz. Geben Sie erneut ein gültiges Passwort ein!");
@@ -209,7 +220,7 @@ namespace FahrgemeinschaftsProjekt
                 Console.WriteLine("Sie befinden sich im Registrierungsfenster als Fahrer!");
                 Console.WriteLine(string.Empty);
                 Console.WriteLine("Vielen Dank, dass Sie sich für unser Anwendung entschieden haben, um Ihre Fahrten anzubieten.");
-                Console.WriteLine("Geben Sie nun bitte Ihren vollständigen Namen an");
+                Console.WriteLine("Geben Sie nun bitte Ihren  Vornamen an");
                 string UsersRegistrationNameD = Console.ReadLine();
                 if (string.IsNullOrEmpty(UsersRegistrationNameD))
                 {
@@ -219,16 +230,27 @@ namespace FahrgemeinschaftsProjekt
                     Console.Clear();
                     goto Fahrer;
                 }
+                FahrerSecondQuestion:
+                Console.WriteLine("Geben Sie nun bitte Ihren Nachnamen an");
+                string UsersRegistrationANameD = Console.ReadLine();
+                if (string.IsNullOrEmpty(UsersRegistrationANameD))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Dies ist leider eine ungültige Eingabe, bitte erneut versuchen.");
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                    goto FahrerSecondQuestion;
+                }
                 Console.Clear();
-                Console.WriteLine($"Herzlich Willkommen {UsersRegistrationNameD}");
-                Console.WriteLine("Jetzt fehlt nur noch Ihr privates Passwort. Denken Sie daran, nie Ihre Passwörter mit Dritten zu teilen!\nIhr Passwort muss mindestens 6 Zeichen lang sein!");
+                Console.WriteLine($"Herzlich Willkommen {UsersRegistrationNameD} {UsersRegistrationANameD}");
+                Console.WriteLine("Jetzt fehlt nur noch Ihr privates Passwort. Denken Sie daran, nie Ihre Passwörter mit Dritten zu teilen!\nIhr Passwort muss mindestens 5 Zeichen lang sein!");
 
                 while (true)
                 {
                     string UsersRegistrationsPasswordD = Console.ReadLine();
                     if (UsersRegistrationsPasswordD.Length >= 5)
                     {
-                        Driver.Drivers(UsersRegistrationNameD, UsersRegistrationsPasswordD);
+                        Driver.Drivers(UsersRegistrationNameD,UsersRegistrationsPasswordD, UsersRegistrationANameD);
                         break;
                     }
                     Console.WriteLine("Ihr Passwort ist leider zu kurz! Geben Sie nun ein gültiges Passwort ein");

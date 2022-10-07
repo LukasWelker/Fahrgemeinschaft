@@ -189,6 +189,13 @@ namespace FahrgemeinschaftsProjekt
             {
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
                 var SplitCarPoolList = CarPool.Split(';');
+                if (string.IsNullOrEmpty(CarPool))
+                {
+                    Console.WriteLine("Leider gibt es momentan keine vorhandenen Fahrgemeinschaften");
+                    Console.WriteLine("Sie werden nun zum Dashboard zurückgeleitet.");
+                    
+
+                }
                 for (int i = 0; i < SplitCarPoolList.Length; i++)
                 {
                     switch (i)
@@ -237,7 +244,7 @@ namespace FahrgemeinschaftsProjekt
             string UserWhoEnters = Console.ReadLine();
             string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
             List<string> readList = CarPoolList.ToList();
-            var MatchingCarPool = readList.FirstOrDefault(x => x.Split(';')[Id] == IdOfCarPool) + " " + UserWhoEnters;
+            var MatchingCarPool = readList.FirstOrDefault(x => x.Split(';')[Id] == IdOfCarPool) + "," + UserWhoEnters;
             var CarPool = readList.Where(x => x.Split(';')[Id] != IdOfCarPool).ToList();
             CarPool.Add(MatchingCarPool);
             var orderdCarpool = CarPool.OrderBy(x => x.Split(';')[0]);
@@ -252,6 +259,7 @@ namespace FahrgemeinschaftsProjekt
         {
             int UA7 = 0;
             ConsoleKeyInfo usersWish;
+            Console.Clear();
             do
             {
                 Console.Clear();
@@ -278,6 +286,10 @@ namespace FahrgemeinschaftsProjekt
             }
             else if (UA7 == 2)
             {
+                Console.Clear();
+                ShowingYourCarPools(driverFile, memberFile);
+                LeaveCarPool(driverFile, memberFile);
+                ReturnDashboardHandler(driverFile, memberFile);
                 //An diese Stelle muss ShowingYourCarPools(string driverFile, string memberFile)
                 //An diese Stelle muss LeaveCarPool(string driveFile, string memberFile)
             }
@@ -355,6 +367,7 @@ namespace FahrgemeinschaftsProjekt
             ConsoleKeyInfo usersWish;
             do
             {
+                Console.Clear();
                 Console.WriteLine("[1] = Möchten Sie eine dieser Fahrgemeinschaften verlassen?");
                 Console.WriteLine("[2] = Möchten sie zurück zum Dashboard");
                 usersWish = Console.ReadKey();
@@ -366,7 +379,41 @@ namespace FahrgemeinschaftsProjekt
             } while (true);
             if (UA8 == 1)
             {
-
+                Console.Clear();
+                Console.WriteLine("Bitte geben Sie die Id der Fahrgemeinschaft an, welche sie verlassen möchten.");
+                var IdOfCarPool = Console.ReadLine();
+                Console.WriteLine("Alles klar, nun brauchen wir noch ihren Namen, um sie aus der Fahrgemeinschaft zu entfernen.");
+                string UserWhoLeaves = Console.ReadLine();
+                List<string> readList = ReadCarPoolCsv();
+                //So kann man was entfernen und hinzufügen in einer CSV Datei
+                //Man sucht in der Csv Datei nach der Zeile mit Id und Name
+                var MatchingCarPool = readList
+                    .FirstOrDefault(x => x
+                        .Split(';')[Id] == IdOfCarPool && x
+                        .Contains(UserWhoLeaves));
+                //Sucht/Liest alle anderen Zeilen
+                var CarPoolOriginal = readList
+                    .Where(x => x
+                        .Split(';')[Id] != IdOfCarPool)
+                    .ToList();
+                //Splitet das Array in strings
+                var SplitedMatchingCarPool = MatchingCarPool.Split(';');
+                //Splitted die gewünschte Zeile intern nach ',' um einen einzelnen Eintrag zu removen
+                var SplitSearchedLine = SplitedMatchingCarPool[7].Split(',').ToList();
+                //Suche alle Einträge raus, die nicht dem User Input entsprechen
+                var DifferntiateListInput = SplitSearchedLine.Where(x => !x.Equals(UserWhoLeaves));
+                //Wandelt es in einen String um
+                var RecreateLine = string.Join(",", DifferntiateListInput);
+                //Schreibt die Zeile, wie man sie braucht
+                var WishResultSplitedMatchingCarPool = $"{SplitedMatchingCarPool[0]};{SplitedMatchingCarPool[1]};{SplitedMatchingCarPool[2]};{SplitedMatchingCarPool[3]};{SplitedMatchingCarPool[4]};{SplitedMatchingCarPool[5]};" +
+                    $"{SplitedMatchingCarPool[6]};{RecreateLine}";
+                //Fügt alle Zeilen, die man aus der Liste nicht braucht mit der einen veränderten zusammen in eine Liste
+                CarPoolOriginal.Add(WishResultSplitedMatchingCarPool);
+                //Löscht die ganze Liste um in Zeile 395 die Liste wie in Zeile 392 zusammengefügt in eine Csv Datei zu schreiben
+                File.Delete("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv");
+                File.AppendAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", CarPoolOriginal);
+                Console.WriteLine("Vielen Dank, Sie wurden nun aus der Fahrgemeinschaft entfernt.");
+                InstantDeletionOfCarPoolIfEmpty(IdOfCarPool);
             }
             else if (UA8 == 2)
             {
@@ -376,6 +423,35 @@ namespace FahrgemeinschaftsProjekt
                 {
                     ReturnDashboardHandler(driveFile, memberFile);
                 }
+            }
+        }
+
+        private static List<string> ReadCarPoolCsv()
+        {
+            string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
+            List<string> readList = CarPoolList.ToList();
+            return readList;
+        }
+
+        public void InstantDeletionOfCarPoolIfEmpty(string IdOfCarPool)
+        {
+            string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
+            var id = Convert.ToInt32(IdOfCarPool);
+            //Uwandlung des einzelnen Strings in Array 
+            string[] singleCarPool = CarPoolList[id].Split(';');
+            if (singleCarPool.Length <= 8)
+            {
+                //Ersetzt den String mit einem leeren String wenn das Array kleiner gleich 7 ist
+                CarPoolList[id] = string.Empty;
+                CarPoolList[id].ToList();
+                List<string> readList = ReadCarPoolCsv();
+                var CarPoolOriginal = readList
+                   .Where(x => x
+                       .Split(';')[Id] != IdOfCarPool)
+                   .ToList();
+                CarPoolOriginal.Add(CarPoolList[id]);
+                File.Delete("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv");
+                File.AppendAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", CarPoolOriginal);
             }
         }
     }

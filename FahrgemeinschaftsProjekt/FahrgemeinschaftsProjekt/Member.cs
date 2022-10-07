@@ -10,9 +10,9 @@ namespace FahrgemeinschaftsProjekt
 {
     public class Member
     {
-        public static void Members(string usersRegistrationName, string usersRegistrationsPassword)
+        public static void Members(string usersRegistrationName, string usersRegistrationsPassword, string usersregistrationAName)
         {
-            var memberscsv = $"{usersRegistrationName};{usersRegistrationsPassword}\n";
+            var memberscsv = $"{usersRegistrationName};{usersregistrationAName};{usersRegistrationsPassword}\n";
             File.AppendAllText("C:\\Projects001\\FahrgemeinschaftProject\\Members.csv", memberscsv, Encoding.UTF8);
             
         }

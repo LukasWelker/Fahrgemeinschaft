@@ -9,10 +9,10 @@ namespace FahrgemeinschaftsProjekt
 {
     public class Driver 
     {
-        public static void Drivers(string usersRegistrationNameD, string usersRegistrationsPasswordD) 
+        public static void Drivers(string usersRegistrationNameD, string usersRegistrationsPasswordD, string usersRegistrationANameD) 
         {
             // FileStream fs = new FileStream("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv", FileMode.Create);
-            var driverscsv = $"{usersRegistrationNameD};{usersRegistrationsPasswordD}\n";
+            var driverscsv = $"{usersRegistrationNameD};{usersRegistrationANameD};{usersRegistrationsPasswordD}\n";
             File.AppendAllText("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv", driverscsv, Encoding.UTF8);
            
         }
