@@ -109,8 +109,30 @@ namespace FahrgemeinschaftsProjekt
                 }
                 else
                 {
-                    Console.Clear();
-                    Console.WriteLine("Dies ist leider ein ungültiges Passwort/Benutzername!");
+                    int UA = 0;
+                    ConsoleKeyInfo usersAnswer;
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Dies ist leider ein ungültiges Passwort/Benutzername oder Registrieren Sie sich zuerst!");
+                        Console.WriteLine("[1] = Registrierung\n" +
+                            "[2] = Wiederholen der Benutzername eingabe");
+                        usersAnswer= Console.ReadKey();
+                        if (char.IsDigit(usersAnswer.KeyChar))
+                        {
+                            UA = int.Parse(usersAnswer.KeyChar.ToString());
+                            break;
+                        }
+                    }while (true);
+                   if(UA == 1)
+                    {
+                        RegistrationHandle();
+                    }
+                   else if(UA == 2)
+                    {
+                        Console.Clear();
+                    }
+                    
                 }
             }
 
@@ -118,7 +140,10 @@ namespace FahrgemeinschaftsProjekt
 
         public static bool CheckIfUsersNameExistDM(string UsersName, string path)
         {
-
+            if(!File.Exists(path))
+            {
+                return false;
+            }
             string[] readText = File.ReadAllLines(path, Encoding.UTF8);
             List<string> readList = readText.ToList();
             var filteredmeml = readText.FirstOrDefault(x => x.Split(';').First() == UsersName);
@@ -126,8 +151,12 @@ namespace FahrgemeinschaftsProjekt
                 return true;
             return false;
         }
-        private static bool CheckifUserPasswordExistDM(string UsersPassword, string path)
+        private  static bool CheckifUserPasswordExistDM(string UsersPassword, string path)
         {
+            if (!File.Exists(path))
+            {
+                return false;
+            }
             string[] readText3 = File.ReadAllLines(path, Encoding.UTF8);
             List<string> readList3 = readText3.ToList();
 
