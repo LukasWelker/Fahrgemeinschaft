@@ -6,21 +6,25 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using System.Reflection;
+using System.Net.NetworkInformation;
 
 namespace FahrgemeinschaftsProjekt
 {
     public class Carpool
     {
         private int Id;
+        private bool noSpaceInCarPool = false;
+        string IdOfCarPool;
+
         //Konstante, die nicht variabel difiniert werden darf
         private LoginRegistrationHandler lrHandler = new LoginRegistrationHandler(
               "C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv",
               "C:\\Projects001\\FahrgemeinschaftProject\\Members.csv");
         public Carpool()
         {
-           
             Id = 0;
         }
+
         public void CreateACarPool()
         {
             int UA4 = 0;
@@ -246,20 +250,25 @@ namespace FahrgemeinschaftsProjekt
         public void EnterCarPool(string driverFile, string memberFile)
         {
             Console.WriteLine("Sie haben eine passende Fahrgemeinschaft gefunden? Welche ID hat diese Fahrgemeinschaft?");
-            var IdOfCarPool = Console.ReadLine();
+            IdOfCarPool = Console.ReadLine();
             Console.WriteLine("Alles klar, nun brauchen wir noch ihren Namen, um sie der Fahrgemeinschaft hinzufügen.");
             string UserWhoEnters = Console.ReadLine();
-            string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
-            List<string> readList = CarPoolList.ToList();
-            var MatchingCarPool = readList.FirstOrDefault(x => x.Split(';')[Id] == IdOfCarPool) + "," + UserWhoEnters;
-            var CarPool = readList.Where(x => x.Split(';')[Id] != IdOfCarPool).ToList();
-            CarPool.Add(MatchingCarPool);
-            var orderdCarpool = CarPool.OrderBy(x => x.Split(';')[0]);
-            File.Delete("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv");
-            File.AppendAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", orderdCarpool);
-            Console.WriteLine(string.Empty);
-            Console.WriteLine("Alles klar sie wurden nun der Fahrgemeinschaft hinzugefügt");
-            ReturnDashboardHandler(driverFile, memberFile);
+            CheckIfCarPoolIsFull(IdOfCarPool);
+            if (!noSpaceInCarPool)
+            {
+                string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
+                List<string> readList = CarPoolList.ToList();
+                var MatchingCarPool = readList.FirstOrDefault(x => x.Split(';')[Id] == IdOfCarPool) + "," + UserWhoEnters;
+                var CarPool = readList.Where(x => x.Split(';')[Id] != IdOfCarPool).ToList();
+                CarPool.Add(MatchingCarPool);
+                var orderdCarpool = CarPool.OrderBy(x => x.Split(';')[0]);
+                File.Delete("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv");
+                File.AppendAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", orderdCarpool);
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("Alles klar sie wurden nun der Fahrgemeinschaft hinzugefügt");
+                ReturnDashboardHandler(driverFile, memberFile);
+            }
+           
         }
 
         public void DisplayYourCarpools(string driverFile, string memberFile)
@@ -296,12 +305,7 @@ namespace FahrgemeinschaftsProjekt
                 //An diese Stelle muss ShowingYourCarPools(string driverFile, string memberFile)
                 //An diese Stelle muss LeaveCarPool(string driveFile, string memberFile)
             }
-
-
-
-
         }
-
         private void ReturnDashbaordWithEnter(string driverFile, string memberFile)
         {
             Console.WriteLine("Drücken sie nun Enter um zurück zum Dashboard zu gelangen!");
@@ -476,6 +480,7 @@ namespace FahrgemeinschaftsProjekt
             List<string> readList = CarPoolList.ToList();
             return readList;
         }
+
         public void InstantDeletionOfCarPoolIfEmpty(string IdOfCarPool)
         {
             string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
@@ -501,7 +506,21 @@ namespace FahrgemeinschaftsProjekt
                     File.AppendAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", CarPoolOriginal);
                 }
             }
-           
+        }
+
+        public void CheckIfCarPoolIsFull(string IdofCarPool)
+        {
+            string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
+            var id = Convert.ToInt32(IdofCarPool);
+            string[] singleCarPool = CarPoolList[id].Split(';');
+            string[] carPoolNames = singleCarPool[7].Split(',');
+            if(carPoolNames.Length == 5)
+            {
+                Console.WriteLine("Es ist leider kein Platz mehr in dieser Fahrgemeinschaft.");
+                Thread.Sleep(1500);
+                noSpaceInCarPool = true;
+            }
+            
         }
     }
 }
