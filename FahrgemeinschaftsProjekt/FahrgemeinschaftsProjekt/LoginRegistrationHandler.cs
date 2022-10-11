@@ -83,6 +83,7 @@ namespace FahrgemeinschaftsProjekt
             {
                 Console.WriteLine("Geben Sie nun bitte Ihren Vornamen ein");
                 string UsersName = Console.ReadLine();
+                UsersName = UsersName.Trim();
                 if (CheckIfUsersNameExistDM(UsersName, memberFile)
                     || CheckIfUsersNameExistDM(UsersName, driverFile))
                 {
@@ -96,16 +97,13 @@ namespace FahrgemeinschaftsProjekt
                         Console.Clear();
                         Console.WriteLine("Login war erfolgreich!");
                         Thread.Sleep(300);
-                        
                         return UsersName;
-
                     }
                     else
                     {
                         Console.Clear();
                         Console.WriteLine("Dies ist leider ein ungültiges Passwort/Benutzername!");
                     }
-
                 }
                 else
                 {
@@ -132,7 +130,6 @@ namespace FahrgemeinschaftsProjekt
                     {
                         Console.Clear();
                     }
-                    
                 }
             }
 
@@ -151,7 +148,7 @@ namespace FahrgemeinschaftsProjekt
                 return true;
             return false;
         }
-        private  static bool CheckifUserPasswordExistDM(string UsersPassword, string path)
+        public static bool CheckifUserPasswordExistDM(string UsersPassword, string path)
         {
             if (!File.Exists(path))
             {
@@ -183,7 +180,7 @@ namespace FahrgemeinschaftsProjekt
             Console.WriteLine("Herzlich Willkommen, vielen Dank, dass Sie sich für uns entschieden haben.");
             Console.WriteLine("Um einen Account bei uns zu erstellen, müssen Sie zuerst angeben, ob Sie selbst Fahrer sind oder nur Mitfahrer!");
             string Usersconcern = Console.ReadLine();
-            if (string.IsNullOrEmpty(Usersconcern))
+            if (string.IsNullOrEmpty(Usersconcern.Trim()))
             {
                 Console.Clear();
                 Console.WriteLine("Dies ist leider eine ungültige Eingabe bitte erneut versuchen!");
@@ -198,6 +195,7 @@ namespace FahrgemeinschaftsProjekt
                 Console.WriteLine(string.Empty);
                 Console.WriteLine("Geben Sie nun bitte Ihren Vornamen ein, der als Ihr Benutzername eingetragen wird.");
                 string UsersRegistrationName = Console.ReadLine();
+                UsersRegistrationName = UsersRegistrationName.Trim();
                 if (string.IsNullOrEmpty(UsersRegistrationName))
                 {
                     Console.Clear();
@@ -209,6 +207,7 @@ namespace FahrgemeinschaftsProjekt
                 MitfahrerSecondQustion:
                 Console.WriteLine("Geben Sie nun bitte ihren Nachnamen ein.");
                 string UsersRegistrationAName = Console.ReadLine();
+                UsersRegistrationAName = UsersRegistrationAName.Trim();
                 if (string.IsNullOrEmpty(UsersRegistrationAName))
                 {
                     Console.Clear();
@@ -251,7 +250,8 @@ namespace FahrgemeinschaftsProjekt
                 Console.WriteLine("Vielen Dank, dass Sie sich für unser Anwendung entschieden haben, um Ihre Fahrten anzubieten.");
                 Console.WriteLine("Geben Sie nun bitte Ihren  Vornamen an");
                 string UsersRegistrationNameD = Console.ReadLine();
-                if (string.IsNullOrEmpty(UsersRegistrationNameD))
+                UsersRegistrationNameD = UsersRegistrationNameD.Trim();
+                if (string.IsNullOrEmpty(UsersRegistrationNameD.Trim()))
                 {
                     Console.Clear();
                     Console.WriteLine("Dies ist leider eine ungültige Eingabe, bitte erneut versuchen.");
@@ -262,21 +262,21 @@ namespace FahrgemeinschaftsProjekt
                 FahrerSecondQuestion:
                 Console.WriteLine("Geben Sie nun bitte Ihren Nachnamen an");
                 string UsersRegistrationANameD = Console.ReadLine();
-                if (string.IsNullOrEmpty(UsersRegistrationANameD))
+                UsersRegistrationANameD = UsersRegistrationANameD.Trim();
+                if (string.IsNullOrEmpty(UsersRegistrationANameD.Trim()))
                 {
                     Console.Clear();
                     Console.WriteLine("Dies ist leider eine ungültige Eingabe, bitte erneut versuchen.");
                     Thread.Sleep(2000);
                     Console.Clear();
-                    goto FahrerSecondQuestion;
+                    goto FahrerSecondQuestion; 
                 }
                 Console.Clear();
                 Console.WriteLine($"Herzlich Willkommen {UsersRegistrationNameD} {UsersRegistrationANameD}");
                 Console.WriteLine("Jetzt fehlt nur noch Ihr privates Passwort. Denken Sie daran, nie Ihre Passwörter mit Dritten zu teilen!\nIhr Passwort muss mindestens 5 Zeichen lang sein!");
-
                 while (true)
                 {
-                    string UsersRegistrationsPasswordD = Console.ReadLine();
+                    string UsersRegistrationsPasswordD = Console.ReadLine();;
                     if (UsersRegistrationsPasswordD.Length >= 5)
                     {
                         Driver.Drivers(UsersRegistrationNameD,UsersRegistrationsPasswordD, UsersRegistrationANameD);
@@ -285,7 +285,6 @@ namespace FahrgemeinschaftsProjekt
                     Console.WriteLine("Ihr Passwort ist leider zu kurz! Geben Sie nun ein gültiges Passwort ein");
                 }
                 Console.Clear();
-               
                 Console.WriteLine($"Vielen Dank {UsersRegistrationNameD} Ihre Registrierung ist nun abgeschlossen!");             
                 Thread.Sleep(500);
                 Console.WriteLine("Drücken sie nun Enter um zurück zu Startbildschirm zu kommen, um sich einzuloggen!");
@@ -294,7 +293,6 @@ namespace FahrgemeinschaftsProjekt
                 {
                     return true;
                 }
-
             }
             Console.ReadLine();
             return false;
@@ -372,8 +370,6 @@ namespace FahrgemeinschaftsProjekt
             {
                 Exit();
             }
-
-
         }
 
         private static void Exit()

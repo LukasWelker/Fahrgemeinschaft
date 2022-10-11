@@ -12,10 +12,10 @@ namespace FahrgemeinschaftsProjekt
 {
     public class Carpool
     {
+        //Benötige ich Variablen in verschiedenen Methoden derselben Klasse, definiere ich diese global
         private int Id;
         private bool noSpaceInCarPool = false;
-        string IdOfCarPool;
-
+        private string IdOfCarPool;
         //Konstante, die nicht variabel difiniert werden darf
         private LoginRegistrationHandler lrHandler = new LoginRegistrationHandler(
               "C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv",
@@ -105,7 +105,6 @@ namespace FahrgemeinschaftsProjekt
                     return;
             }
             SearchFileByUserEntry(driverFile, memberFile, userQuestion, location);
-
         }
 
         private void SearchFallback(string driverFile, string memberFile)
@@ -114,7 +113,6 @@ namespace FahrgemeinschaftsProjekt
             Console.WriteLine("Die folgende AufListung zeigt alle verfügbaren Fahrgemeinschaften.");
             Console.WriteLine(string.Empty);
             var CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
-
             PrintOutCarPoolInfo(CarPoolList);
             AskUserForMatchingCarPool(driverFile, memberFile);
         }
@@ -165,7 +163,6 @@ namespace FahrgemeinschaftsProjekt
             string[] filtered = FilterBasesOnUserInput(readList, UserInput, location);
             PrintOutCarPoolInfo(filtered);
             AskUserForMatchingCarPool(driverFile, memberFile);
-
         }
 
         private static string[] FilterBasesOnUserInput(List<string> readList, string UserInput, int location)
@@ -199,42 +196,41 @@ namespace FahrgemeinschaftsProjekt
         {
             foreach (var CarPool in CarPoolList)
             {
-                Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
                 var SplitCarPoolList = CarPool.Split(';');
                 if (string.IsNullOrEmpty(CarPool))
+                    return;
+                if (!string.IsNullOrEmpty(CarPool))
                 {
-                    Console.WriteLine("Leider gibt es momentan keine Fahrgemeinschaften");
-                    Console.WriteLine("Sie werden nun zum Dashboard zurückgeleitet.");
-                  
-                }
-                for (int i = 0; i < SplitCarPoolList.Length; i++)
-                {
-                    switch (i)
+                    Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
+                    for (int i = 0; i < SplitCarPoolList.Length; i++)
                     {
-                        case 0:
-                            Console.WriteLine($"ID: {SplitCarPoolList[i]}");
-                            break;
-                        case 1:
-                            Console.WriteLine($"Name: {SplitCarPoolList[i]}");
-                            break;
-                        case 2:
-                            Console.WriteLine($"Abfahrtsort: {SplitCarPoolList[i]}");
-                            break;
-                        case 3:
-                            Console.WriteLine($"Ankunftsort: {SplitCarPoolList[i]}");
-                            break;
-                        case 4:
-                            Console.WriteLine($"Abfahrtzeit: {SplitCarPoolList[i]}");
-                            break;
-                        case 5:
-                            Console.WriteLine($"Sitzplätze: {SplitCarPoolList[i]}");
-                            break;
-                        case 6:
-                            Console.WriteLine($"Fahrer bereits vorhanden: {SplitCarPoolList[i]}");
-                            break;
-                        case 7:
-                            Console.WriteLine($"Mitglieder: {SplitCarPoolList[i]}");
-                            break;
+                        switch (i)
+                        {
+                            case 0:
+                                Console.WriteLine($"ID: {SplitCarPoolList[i]}");
+                                break;
+                            case 1:
+                                Console.WriteLine($"Name: {SplitCarPoolList[i]}");
+                                break;
+                            case 2:
+                                Console.WriteLine($"Abfahrtsort: {SplitCarPoolList[i]}");
+                                break;
+                            case 3:
+                                Console.WriteLine($"Ankunftsort: {SplitCarPoolList[i]}");
+                                break;
+                            case 4:
+                                Console.WriteLine($"Abfahrtzeit: {SplitCarPoolList[i]}");
+                                break;
+                            case 5:
+                                Console.WriteLine($"Sitzplätze: {SplitCarPoolList[i]}");
+                                break;
+                            case 6:
+                                Console.WriteLine($"Fahrer bereits vorhanden: {SplitCarPoolList[i]}");
+                                break;
+                            case 7:
+                                Console.WriteLine($"Mitglieder: {SplitCarPoolList[i]}");
+                                break;
+                        }
                     }
                 }
             }
@@ -251,11 +247,11 @@ namespace FahrgemeinschaftsProjekt
         {
             Console.WriteLine("Sie haben eine passende Fahrgemeinschaft gefunden? Welche ID hat diese Fahrgemeinschaft?");
             IdOfCarPool = Console.ReadLine();
-            Console.WriteLine("Alles klar, nun brauchen wir noch ihren Namen, um sie der Fahrgemeinschaft hinzufügen.");
-            string UserWhoEnters = Console.ReadLine();
-            CheckIfCarPoolIsFull(IdOfCarPool);
+            CheckIfCarPoolIsFull(IdOfCarPool, driverFile, memberFile);
             if (!noSpaceInCarPool)
             {
+                Console.WriteLine("Alles klar, nun brauchen wir noch Ihren Namen, um Sie der Fahrgemeinschaft hinzufügen.");
+                string UserWhoEnters = Console.ReadLine();
                 string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
                 List<string> readList = CarPoolList.ToList();
                 var MatchingCarPool = readList.FirstOrDefault(x => x.Split(';')[Id] == IdOfCarPool) + "," + UserWhoEnters;
@@ -294,7 +290,6 @@ namespace FahrgemeinschaftsProjekt
                 ShowingYourCarPools(driverFile, memberFile);
                 Console.Clear();
                 ReturnDashbaordWithEnter(driverFile, memberFile);
-
             }
             else if (UA7 == 2)
             {
@@ -302,10 +297,9 @@ namespace FahrgemeinschaftsProjekt
                 ShowingYourCarPools(driverFile, memberFile);
                 LeaveCarPool(driverFile, memberFile);
                 ReturnDashboardHandler(driverFile, memberFile);
-                //An diese Stelle muss ShowingYourCarPools(string driverFile, string memberFile)
-                //An diese Stelle muss LeaveCarPool(string driveFile, string memberFile)
             }
         }
+
         private void ReturnDashbaordWithEnter(string driverFile, string memberFile)
         {
             Console.WriteLine("Drücken sie nun Enter um zurück zum Dashboard zu gelangen!");
@@ -405,7 +399,7 @@ namespace FahrgemeinschaftsProjekt
             {
                 Console.Clear();
                 Console.WriteLine("[1] = Möchten Sie eine dieser Fahrgemeinschaften verlassen?");
-                Console.WriteLine("[2] = Möchten sie zurück zum Dashboard");
+                Console.WriteLine("[2] = Möchten Sie zurück zum Dashboard");
                 usersWish = Console.ReadKey();
                 if (char.IsDigit(usersWish.KeyChar))
                 {
@@ -418,7 +412,7 @@ namespace FahrgemeinschaftsProjekt
                 Console.Clear();
                 Console.WriteLine("Bitte geben Sie die Id der Fahrgemeinschaft an, welche sie verlassen möchten.");
                 var IdOfCarPool = Console.ReadLine();
-                Console.WriteLine("Alles klar, nun brauchen wir noch ihren Namen, um sie aus der Fahrgemeinschaft zu entfernen.");
+                Console.WriteLine("Alles klar, nun brauchen wir noch Ihren Namen, um Sie aus der Fahrgemeinschaft zu entfernen.");
                     string userWhoLeaves = Console.ReadLine();
                 if (LoginRegistrationHandler.CheckIfUsersNameExistDM(userWhoLeaves, memberFile)
                          || LoginRegistrationHandler.CheckIfUsersNameExistDM(userWhoLeaves, driverFile))
@@ -457,7 +451,7 @@ namespace FahrgemeinschaftsProjekt
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine("Entweder sie haben ihren Namen falsch geschrieben oder sie haben sich vertippt." +
+                    Console.WriteLine("Entweder Sie haben Ihren Namen falsch geschrieben oder Sie haben sich vertippt." +
                         " Sie werden nun zurückgeleitet, zur erneuten Eingabe.");
                     Thread.Sleep(2000);
                     LeaveCarPool(driverFile, memberFile);
@@ -465,7 +459,7 @@ namespace FahrgemeinschaftsProjekt
             }
             else if (UA8 == 2)
             {
-                Console.WriteLine("Drücken sie nun Enter um zurück zum Dashboard zu gelangen!");
+                Console.WriteLine("Drücken Sie nun Enter um zurück zum Dashboard zu gelangen!");
                 string goBackToDash = Console.ReadLine();
                 if (string.IsNullOrEmpty(goBackToDash))
                 {
@@ -504,11 +498,12 @@ namespace FahrgemeinschaftsProjekt
                     CarPoolOriginal.Add(CarPoolList[id]);
                     File.Delete("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv");
                     File.AppendAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", CarPoolOriginal);
+
                 }
             }
         }
 
-        public void CheckIfCarPoolIsFull(string IdofCarPool)
+        public void CheckIfCarPoolIsFull(string IdofCarPool, string driverFile, string memberFile)
         {
             string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
             var id = Convert.ToInt32(IdofCarPool);
@@ -516,8 +511,10 @@ namespace FahrgemeinschaftsProjekt
             string[] carPoolNames = singleCarPool[7].Split(',');
             if(carPoolNames.Length == 5)
             {
-                Console.WriteLine("Es ist leider kein Platz mehr in dieser Fahrgemeinschaft.");
-                Thread.Sleep(1500);
+                Console.WriteLine("Es ist leider kein Platz mehr in dieser Fahrgemeinschaft.\n" +
+                    "Sie werdem nun zum Dashboard weitergeleitet.");
+                Thread.Sleep(1000);
+                ReturnDashboardHandler(driverFile, memberFile);
                 noSpaceInCarPool = true;
             }
             
