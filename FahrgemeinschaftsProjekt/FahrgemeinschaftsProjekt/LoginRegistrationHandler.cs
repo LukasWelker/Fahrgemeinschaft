@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,9 +9,11 @@ namespace FahrgemeinschaftsProjekt
 {
     public class LoginRegistrationHandler
     {
-        public readonly string driverFile;
-        public readonly string memberFile;
+        //Klassenvariablen
+        public string driverFile;
+        public  string memberFile;
 
+        //Konstruktor
         public LoginRegistrationHandler(string driverFile, string memberFile)
         {
             this.driverFile = driverFile;
@@ -29,7 +30,6 @@ namespace FahrgemeinschaftsProjekt
             int UA1 = 0;
             ConsoleKeyInfo UsersAnswer;
             CheckUserMenueSelection(out UA1, out UsersAnswer, "Willkommen zu unserer Fahrgemeinschaftapp\n" +
-                    "------------------------------------------------------------------------------------------------------------------------\n"+
                     "[1] = Login\n" +
                     "[2] = Registration\n" +
                     "[3] = Exit");
@@ -70,6 +70,7 @@ namespace FahrgemeinschaftsProjekt
         /// <param name="value"></param>
         private static void CheckUserMenueSelection(out int UA1, out ConsoleKeyInfo UsersAnswer, string value)
         {
+            //Due to Console.WriteLine(value) this method is flexible you just need to hand overt the "real" value as a parameter if you use the method
             do
             {
                 Console.Clear();
@@ -337,87 +338,9 @@ namespace FahrgemeinschaftsProjekt
         }
 
         /// <summary>
-        /// MenuePage Method / 5 different options to choose: Add Carpool/Find Carpool/ Manage your Carpools/ Seetings/ Exit
-        /// Error Handling with do while loop
-        /// </summary>
-        public void MenuePage()
-        {
-            int UA3 = 0;
-        Menue:
-            ConsoleKeyInfo UsersAnswer;
-            do
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("    ###       ###  ##########   ###         ########   ##########   ###     ###    ########## ");
-                Thread.Sleep(20);
-                Console.WriteLine("   ###       ###  ###          ###         ###        ###    ###   ####   #####   ###         ");
-                Thread.Sleep(20);
-                Console.WriteLine("  ##   ##   ##   ###          ###         ###        ###    ###   ### #  #  ###  ###          ");
-                Thread.Sleep(20);
-                Console.WriteLine(" ###  ###  ###  ########     ###         ###        ###    ###   ###  ###  ###  ########      ");
-                Thread.Sleep(20);
-                Console.WriteLine("###  #### ###  ###          ###         ###        ###    ###   ###       ###  ###            ");
-                Thread.Sleep(20);
-                Console.WriteLine("##### #####   ###          ###         ###        ###    ###   ###       ###  ###             ");
-                Thread.Sleep(20);
-                Console.WriteLine("###   ###    ##########   ##########  ########   ##########   ###       ###  ##########       ");
-                Thread.Sleep(20);
-                Console.WriteLine($"                             Willkommen zurück !");
-                Thread.Sleep(20);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("[1] = Add Carpool");
-                Thread.Sleep(20);
-                Console.WriteLine("[2] = Find a Carpool");
-                Thread.Sleep(20);
-                Console.WriteLine("[3] = Manage your Carpools ");
-                Thread.Sleep(20);
-                Console.WriteLine("[4] = Settings");
-                Thread.Sleep(20);
-                Console.WriteLine("[5] = Exit");
-                UsersAnswer = Console.ReadKey();
-                if (char.IsDigit(UsersAnswer.KeyChar))
-                {
-                    UA3 = int.Parse(UsersAnswer.KeyChar.ToString());
-                    break;
-                }
-
-            }while (true);
-
-
-            if (UA3 == 1)
-            {
-                var Carpool = new Carpool();
-                Carpool.CreateACarPool();
-                goto Menue;
-            }
-            else if(UA3 == 2)
-            {
-                var FindCarpool = new Carpool();
-                FindCarpool.FindACarPool(driverFile, memberFile);
-            }
-            else if (UA3 == 3)
-            {
-                Console.Clear();
-                var Carpool = new Carpool();
-                Carpool.DisplayYourCarpools(driverFile, memberFile);
-                goto Menue;
-            }
-            else if (UA3 == 4)
-            {
-                var Settings = new Settings();
-                Settings.SettingsHandler(driverFile,memberFile); 
-            }
-            else if (UA3 == 5)
-            {
-                Exit();
-            }
-        }
-
-        /// <summary>
         /// Exit Method closes the program 
         /// </summary>
-        private static void Exit()
+        public static void Exit()
         {
             Console.Clear();
             Console.WriteLine("Tschüss!");

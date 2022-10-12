@@ -51,6 +51,7 @@
     <Compile Include="Driver.cs" />
     <Compile Include="LoginRegistrationHandler.cs" />
     <Compile Include="Member.cs" />
+    <Compile Include="MenueHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadCSV.cs" />

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
-using System.Reflection;
-using System.Net.NetworkInformation;
+using System.Xml;
 
 namespace FahrgemeinschaftsProjekt
 {
@@ -55,9 +53,12 @@ namespace FahrgemeinschaftsProjekt
                 }
             }
             var baseId = Id;
+            int y = 1;
             for (int i = Id; i < UA4 + baseId; i++)
             {
                 Console.Clear();
+                Console.WriteLine($"Sie erstellen gerade die Fahrgemeinschaft ({y}/{CarpoolCount}");
+                Console.WriteLine(string.Empty);
                 Console.WriteLine("Geben sie ihrer Fahrgemeinschaft einen Namen!");
                 string CarPoolName = Console.ReadLine();
                 Console.WriteLine("Von wo möchten Sie abfahren?");
@@ -78,6 +79,7 @@ namespace FahrgemeinschaftsProjekt
                 Console.WriteLine("Fahrgemeinschaft wurde erfolgreich hinzugefügt!");
                 Thread.Sleep(1000);
                 Id++;
+                y++;
             }
         }
 
@@ -280,8 +282,8 @@ namespace FahrgemeinschaftsProjekt
         public void ReturnDashboardHandler(string driverFile, string memberFile)
         {
             Thread.Sleep(1000);
-            var ReturnLogIN = new LoginRegistrationHandler(driverFile, memberFile);
-            ReturnLogIN.MenuePage();
+            var returnLogin = new MenueHandler(driverFile, memberFile);
+            returnLogin.MenuePage();
         }
 
         /// <summary>

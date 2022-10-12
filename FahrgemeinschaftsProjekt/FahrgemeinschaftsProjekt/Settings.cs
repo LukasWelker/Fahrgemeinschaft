@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace FahrgemeinschaftsProjekt
@@ -44,7 +43,9 @@ namespace FahrgemeinschaftsProjekt
                     Console.Clear();
                     var ReturnLogIN = new LoginRegistrationHandler(driverFile,memberFile);
                     ReturnLogIN.Welcome();
-                    ReturnLogIN.MenuePage();
+                    
+                    var returnLogin = new MenueHandler(driverFile, memberFile);
+                    returnLogin.MenuePage();
                 }
             }
             else if (UA2 == 2)

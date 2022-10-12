@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.IO;
 
 namespace FahrgemeinschaftsProjekt
 {
@@ -16,8 +10,10 @@ namespace FahrgemeinschaftsProjekt
             var loginHandler = new LoginRegistrationHandler(
                 "C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv",
                 "C:\\Projects001\\FahrgemeinschaftProject\\Members.csv");
-             loginHandler.Welcome();
-            loginHandler.MenuePage();            
+            loginHandler.Welcome();
+            var menueHandler = new MenueHandler("C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv",
+                "C:\\Projects001\\FahrgemeinschaftProject\\Members.csv");
+            menueHandler.MenuePage();            
             Console.ReadLine();
         }
     }
