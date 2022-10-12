@@ -14,6 +14,7 @@ namespace FahrgemeinschaftsProjekt
         private int Id;
         private bool noSpaceInCarPool = false;
         private string IdOfCarPool;
+        private int seatcount;
         //Konstante, die nicht variabel difiniert werden darf
         private LoginRegistrationHandler lrHandler = new LoginRegistrationHandler(
               "C:\\Projects001\\FahrgemeinschaftProject\\Drivers.csv",
@@ -68,12 +69,12 @@ namespace FahrgemeinschaftsProjekt
                 Console.WriteLine("Wann ist die geplante Abfahrt?");
                 string Time = Console.ReadLine();
                 Console.WriteLine("Wie viele Plätze hat Ihr Auto noch frei?");
-                string SeatCount = Console.ReadLine();
+                seatcount = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Sind sie Fahrer?");
                 string Driver = Console.ReadLine();
                 Console.WriteLine("Zuletzt benötigen wir noch Ihren Namen, um sie der Gemeinschaft hinzuzufügen.");
                 string UsersName = Console.ReadLine();
-                var Carpool = $"{Id};{CarPoolName};{Start};{Destination};{Time};{SeatCount};{Driver};{UsersName}\n";
+                var Carpool = $"{Id};{CarPoolName};{Start};{Destination};{Time};{seatcount};{Driver};{UsersName}\n";
                 File.AppendAllText($"C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Carpool);
                 Console.Clear();
                 Console.WriteLine("Fahrgemeinschaft wurde erfolgreich hinzugefügt!");
@@ -236,7 +237,10 @@ namespace FahrgemeinschaftsProjekt
             {
                 var SplitCarPoolList = CarPool.Split(';');
                 if (string.IsNullOrEmpty(CarPool))
-                    return;
+                {
+                    continue;
+                }
+                    
                 if (!string.IsNullOrEmpty(CarPool))
                 {
                     Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
@@ -577,8 +581,9 @@ namespace FahrgemeinschaftsProjekt
             var id = Convert.ToInt32(IdofCarPool);
             string[] singleCarPool = CarPoolList[id].Split(';');
             string[] carPoolNames = singleCarPool[7].Split(',');
-            if(carPoolNames.Length == 5)
+            if(carPoolNames.Length == seatcount)
             {
+                Console.Clear();
                 Console.WriteLine("Es ist leider kein Platz mehr in dieser Fahrgemeinschaft.\n" +
                     "Sie werdem nun zum Dashboard weitergeleitet.");
                 Thread.Sleep(1000);

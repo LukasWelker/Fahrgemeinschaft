@@ -15,7 +15,7 @@ namespace FahrgemeinschaftsProjekt
        /// </summary>
        /// <param name="driverFile"></param>
        /// <param name="memberFile"></param>
-        public void SettingsHandler(string driverFile, string memberFile)
+        public  void SettingsHandler(string driverFile, string memberFile)
         {
             int UA2 = 0;
             ConsoleKeyInfo UsersChoice;

@@ -45,33 +45,34 @@ namespace FahrgemeinschaftsProjekt
                 Console.WriteLine($"                             Willkommen zurück !");
                 Thread.Sleep(20);
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("---------------------------");
+                Console.WriteLine("════════════════════════════════════");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("[1] = Add Carpool");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("---------------------------");
+                Console.WriteLine("════════════════════════════════════");
                 Thread.Sleep(20);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("[2] = Find a Carpool");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("---------------------------");
+                Console.WriteLine("════════════════════════════════════");
                 Thread.Sleep(20);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("[3] = Manage your Carpools ");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("---------------------------");
+                Console.WriteLine("════════════════════════════════════");
                 Thread.Sleep(20);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("[4] = Settings");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("---------------------------");
+                Console.WriteLine("════════════════════════════════════");
                 Thread.Sleep(20);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("[5] = Exit");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("---------------------------");
+                Console.WriteLine("════════════════════════════════════");
                 Console.ForegroundColor = ConsoleColor.White;
                 UsersAnswer = Console.ReadKey();
+                
                 if (char.IsDigit(UsersAnswer.KeyChar))
                 {
                     UA3 = int.Parse(UsersAnswer.KeyChar.ToString());
@@ -106,6 +107,8 @@ namespace FahrgemeinschaftsProjekt
             }
             else if (UA3 == 5)
             {
+                //Warum kann ich hier auf die Methode zugreifen ohne eine Objekterstellung
+                //Lösung, die Methode ist static
                 LoginRegistrationHandler.Exit();
             }
         }
