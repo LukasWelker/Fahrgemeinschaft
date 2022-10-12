@@ -25,6 +25,9 @@ namespace FahrgemeinschaftsProjekt
             Id = 0;
         }
 
+        /// <summary>
+        /// Method to create a Carpool, quantity is variable, gives each Carpool an unique Id, Error Handling with do while loop, decides how the informations are saved in the CSV-File
+        /// </summary>
         public void CreateACarPool()
         {
             int UA4 = 0;
@@ -78,6 +81,11 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Method used to find a Carpool based on users input , works with a switch case, defines the location--> location is the index of an input inside the CSV-File
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         public void FindACarPool(string driverFile, string memberFile)
         {
             Console.Clear();
@@ -107,6 +115,11 @@ namespace FahrgemeinschaftsProjekt
             SearchFileByUserEntry(driverFile, memberFile, userQuestion, location);
         }
 
+        /// <summary>
+        /// Method is a precondition for displaying all Carpool which are available based on your preferences
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         private void SearchFallback(string driverFile, string memberFile)
         {
             Console.Clear();
@@ -117,7 +130,14 @@ namespace FahrgemeinschaftsProjekt
             AskUserForMatchingCarPool(driverFile, memberFile);
         }
 
-        private void AskUserForMatchingCarPool(string driverFile, string memberFile)
+        /// <summary>
+        /// Method used to ask the user if one of the displayed Carpools is in his favor
+        /// if yes--> redirection to EnterACarpool Method
+        /// if no --> redirection to the Dashboard
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
+        public void AskUserForMatchingCarPool(string driverFile, string memberFile)
         {
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine(string.Empty);
@@ -165,11 +185,23 @@ namespace FahrgemeinschaftsProjekt
             AskUserForMatchingCarPool(driverFile, memberFile);
         }
 
+        /// <summary>
+        /// Method which filteres a CSV-File based on the location --> location is the index of an input inside the CSV-File
+        /// </summary>
+        /// <param name="readList"></param>
+        /// <param name="UserInput"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
         private static string[] FilterBasesOnUserInput(List<string> readList, string UserInput, int location)
         {
             return readList.Where(x => x.Split(';')[location] == UserInput).ToArray();
         }
 
+        /// <summary>
+        /// Method starts the functionality to find a Carpool, User can choose between 4 Searchoptions
+        /// </summary>
+        /// <param name="UA5"></param>
+        /// <param name="UsersSearchWish"></param>
         private static void CheckUserInput(out int UA5, out ConsoleKeyInfo UsersSearchWish)
         {
             do
@@ -192,6 +224,10 @@ namespace FahrgemeinschaftsProjekt
             } while (true);
         }
 
+        /// <summary>
+        /// Method to print out the Carpool Informations using a switch case+ Error handling if no Carpool exists a break gets triggerd
+        /// </summary>
+        /// <param name="CarPoolList"></param>
         private static void PrintOutCarPoolInfo(string[] CarPoolList)
         {
             foreach (var CarPool in CarPoolList)
@@ -236,6 +272,11 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Method to get redirected to the Dashboard, without any limitations , you can not stop this method/ process
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         public void ReturnDashboardHandler(string driverFile, string memberFile)
         {
             Thread.Sleep(1000);
@@ -243,6 +284,11 @@ namespace FahrgemeinschaftsProjekt
             ReturnLogIN.MenuePage();
         }
 
+        /// <summary>
+        /// Method to enter a Carpool based on the individual Id each Carpool has, using Linq + after the main process you get redirected to the Dashboard
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         public void EnterCarPool(string driverFile, string memberFile)
         {
             Console.WriteLine("Sie haben eine passende Fahrgemeinschaft gefunden? Welche ID hat diese Fahrgemeinschaft?");
@@ -267,6 +313,13 @@ namespace FahrgemeinschaftsProjekt
            
         }
 
+        /// <summary>
+        /// Two Options: + Error Handling with do while lo0p
+        /// Option 1: Method used to display your Carpools.
+        /// Option2: Method to start the process of leaving a Carpool
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         public void DisplayYourCarpools(string driverFile, string memberFile)
         {
             int UA7 = 0;
@@ -300,6 +353,11 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Method to be redirected to the Menuepage in connection with the input Ebter
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         private void ReturnDashbaordWithEnter(string driverFile, string memberFile)
         {
             Console.WriteLine("Drücken sie nun Enter um zurück zum Dashboard zu gelangen!");
@@ -309,6 +367,7 @@ namespace FahrgemeinschaftsProjekt
                 ReturnDashboardHandler(driverFile, memberFile);
             }
         }
+
 
         private void ShowingYourCarPools(string driverFile, string memberFile)
 
@@ -377,6 +436,10 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Method to read the Carpoollist CSV-File, path is constant
+        /// </summary>
+        /// <returns></returns>
         private static List<string> ReadCarPoolList()
         {
 
@@ -385,12 +448,12 @@ namespace FahrgemeinschaftsProjekt
             return readList;
         }
 
-        public void DeleteCarPool(string driveFile, string memberFile)
-        {
-            List<string> readList = ReadCarPoolList();
-
-        }
-
+        /// <summary>
+        /// Method to LeaveACarpool using Linq, checks if User exists(checks password and username) + Error handling with do while loop
+        /// If you are the last memebr of a Carpool and you leave the Carpool gets deleted
+        /// </summary>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         public void LeaveCarPool(string driverFile, string memberFile)
         {
             int UA8 = 0;
@@ -417,7 +480,7 @@ namespace FahrgemeinschaftsProjekt
                 if (LoginRegistrationHandler.CheckIfUsersNameExistDM(userWhoLeaves, memberFile)
                          || LoginRegistrationHandler.CheckIfUsersNameExistDM(userWhoLeaves, driverFile))
                 {
-                    List<string> readList = ReadCarPoolCsv();
+                    List<string> readList = ReadCarPoolList();
                     //So kann man was entfernen und hinzufügen in einer CSV Datei
                     //Man sucht in der Csv Datei nach der Zeile mit Id und Name
                     var MatchingCarPool = readList
@@ -468,13 +531,10 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
-        private static List<string> ReadCarPoolCsv()
-        {
-            string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
-            List<string> readList = CarPoolList.ToList();
-            return readList;
-        }
-
+        /// <summary>
+        /// Method which deletes the Carpool based on the number of members, Linq is used
+        /// </summary>
+        /// <param name="IdOfCarPool"></param>
         public void InstantDeletionOfCarPoolIfEmpty(string IdOfCarPool)
         {
             string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);
@@ -490,7 +550,7 @@ namespace FahrgemeinschaftsProjekt
                     //Ersetzt den String mit einem leeren String wenn das Array kleiner gleich 8 ist
                     CarPoolList[id] = string.Empty;
                     CarPoolList[id].ToList();
-                    List<string> readList = ReadCarPoolCsv();
+                    List<string> readList = ReadCarPoolList();
                     var CarPoolOriginal = readList
                        .Where(x => x
                            .Split(';')[Id] != IdOfCarPool)
@@ -503,6 +563,12 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Method to check if the Carpool is full---> stops users to enter a Carpool if it is already full at the moment a Carpool length of 5 triggers this method
+        /// </summary>
+        /// <param name="IdofCarPool"></param>
+        /// <param name="driverFile"></param>
+        /// <param name="memberFile"></param>
         public void CheckIfCarPoolIsFull(string IdofCarPool, string driverFile, string memberFile)
         {
             string[] CarPoolList = File.ReadAllLines("C:\\Projects001\\FahrgemeinschaftProject\\Carpool.csv", Encoding.UTF8);

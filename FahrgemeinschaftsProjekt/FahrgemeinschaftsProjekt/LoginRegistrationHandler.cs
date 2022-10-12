@@ -19,7 +19,9 @@ namespace FahrgemeinschaftsProjekt
             this.memberFile = memberFile;
 
         }
-
+        /// <summary>
+        /// //3 Options: Login/Registration/Exit----> User decides what to do + Error handling if wrong Input
+        /// </summary>
         public void Welcome()
         {
 
@@ -27,6 +29,7 @@ namespace FahrgemeinschaftsProjekt
             int UA1 = 0;
             ConsoleKeyInfo UsersAnswer;
             CheckUserMenueSelection(out UA1, out UsersAnswer, "Willkommen zu unserer Fahrgemeinschaftapp\n" +
+                    "------------------------------------------------------------------------------------------------------------------------\n"+
                     "[1] = Login\n" +
                     "[2] = Registration\n" +
                     "[3] = Exit");
@@ -59,6 +62,12 @@ namespace FahrgemeinschaftsProjekt
 
         }
 
+        /// <summary>
+        /// Error handling Method with do while loop
+        /// </summary>
+        /// <param name="UA1"></param>
+        /// <param name="UsersAnswer"></param>
+        /// <param name="value"></param>
         private static void CheckUserMenueSelection(out int UA1, out ConsoleKeyInfo UsersAnswer, string value)
         {
             do
@@ -74,6 +83,12 @@ namespace FahrgemeinschaftsProjekt
                 }
             } while (true);
         }
+
+        /// <summary>
+        /// Handling of Login, checks if Username and Password exists, if not you get directly to the Registrationhandler or you can try again
+        /// You have unlimited tries + Error Handling with do while loop
+        /// </summary>
+        /// <returns></returns>
         public string LoginHandle()
         {
             Console.Clear();
@@ -135,6 +150,12 @@ namespace FahrgemeinschaftsProjekt
 
         }
 
+        /// <summary>
+        /// Method to check if Username exists using Linq + Cehcks if File exists, path is variable
+        /// </summary>
+        /// <param name="UsersName"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static bool CheckIfUsersNameExistDM(string UsersName, string path)
         {
             if(!File.Exists(path))
@@ -148,6 +169,13 @@ namespace FahrgemeinschaftsProjekt
                 return true;
             return false;
         }
+
+        /// <summary>
+        ///   //Method to check if userpassword exists using Linq + checks if File exists, path is variable
+        /// </summary>
+        /// <param name="UsersPassword"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static bool CheckifUserPasswordExistDM(string UsersPassword, string path)
         {
             if (!File.Exists(path))
@@ -162,6 +190,11 @@ namespace FahrgemeinschaftsProjekt
                 return true;
             return false;
         }
+
+        /// <summary>
+        /// Methd to read CSV-File, path is variable
+        /// </summary>
+        /// <param name="path"></param>
         public static void ReadCsv(string path)
         {
             string[] readText = File.ReadAllLines(path, Encoding.UTF8).Skip(0).First().Split(';');
@@ -172,6 +205,11 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Handles the Registration / saves the user in two different csv files based on your input /  password limitations / Error Handling if userinput is NullorEmpty
+        /// After registration is completed you will go back to the Welcome page
+        /// </summary>
+        /// <returns></returns>
         public bool RegistrationHandle()
         {
             Console.Clear();
@@ -297,9 +335,13 @@ namespace FahrgemeinschaftsProjekt
             Console.ReadLine();
             return false;
         }
+
+        /// <summary>
+        /// MenuePage Method / 5 different options to choose: Add Carpool/Find Carpool/ Manage your Carpools/ Seetings/ Exit
+        /// Error Handling with do while loop
+        /// </summary>
         public void MenuePage()
         {
-            
             int UA3 = 0;
         Menue:
             ConsoleKeyInfo UsersAnswer;
@@ -372,6 +414,9 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Exit Method closes the program 
+        /// </summary>
         private static void Exit()
         {
             Console.Clear();
@@ -379,6 +424,7 @@ namespace FahrgemeinschaftsProjekt
             Thread.Sleep(900);
             Environment.Exit(1);
         }
+        
     }
 }
 

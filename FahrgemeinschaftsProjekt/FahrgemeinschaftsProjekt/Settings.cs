@@ -9,7 +9,13 @@ namespace FahrgemeinschaftsProjekt
 {
     public class Settings 
     {
-       
+       /// <summary>
+       /// Method to handle the Setting functionality, Error handling with do while loop, you can choose between two options
+       /// Option 1: Logout --> go back to the Welcomepage
+       /// Option2: Change your password 
+       /// </summary>
+       /// <param name="driverFile"></param>
+       /// <param name="memberFile"></param>
         public void SettingsHandler(string driverFile, string memberFile)
         {
             int UA2 = 0;
@@ -89,6 +95,13 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Method hanbdles the preconditions for the Password change. Preconditions: Read CSV-File, Filteres the right Line based one userInput
+        /// </summary>
+        /// <param name="userInput"></param>
+        /// <param name="userPassword"></param>
+        /// <param name="userNewPassword"></param>
+        /// <param name="path"></param>
         private static void PreConditionForPasswordChange(string userInput, string userPassword, string userNewPassword, string path)
         {
             string[] carPoolArray = File.ReadAllLines(path, Encoding.UTF8);
@@ -103,6 +116,14 @@ namespace FahrgemeinschaftsProjekt
             }
         }
 
+        /// <summary>
+        /// Method executes the real Passwordchange, and overwrites the matching File
+        /// </summary>
+        /// <param name="userPassword"></param>
+        /// <param name="userNewPassword"></param>
+        /// <param name="path"></param>
+        /// <param name="matchingLine"></param>
+        /// <param name="remainingLines"></param>
         private static void PasswordChange(string userPassword, string userNewPassword, string path, string matchingLine, List<string> remainingLines)
         {
             var newMatchingLine = matchingLine.Replace(userPassword, userNewPassword);
