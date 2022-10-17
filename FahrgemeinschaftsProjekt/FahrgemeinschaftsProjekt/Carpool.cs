@@ -581,7 +581,7 @@ namespace FahrgemeinschaftsProjekt
             var id = Convert.ToInt32(IdofCarPool);
             string[] singleCarPool = CarPoolList[id].Split(';');
             string[] carPoolNames = singleCarPool[7].Split(',');
-            if(carPoolNames.Length == seatcount)
+            if(carPoolNames.Length <= seatcount)
             {
                 Console.Clear();
                 Console.WriteLine("Es ist leider kein Platz mehr in dieser Fahrgemeinschaft.\n" +
